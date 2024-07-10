@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>File Conversion Homepage</title>
+    <title>File Conversion</title>
     <!-- Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 </head>
@@ -33,7 +33,7 @@
 <section class="jumbotron text-center">
     <div class="container">
         <h1 class="display-4">Welcome to File Conversion</h1>
-        <p class="lead">This is a simple Bootstrap template for your file conversion project.</p>
+        <p class="lead">This is a simple implementation Steganograph for AES Encryption.</p>
         <div class="d-flex justify-content-center">
             <a href="upload_docx_pdf.php" class="btn btn-primary mr-3">Convert DOCX/PDF to Excel</a>
             <a href="upload_excel.php" class="btn btn-success">Convert Excel to DOCX/PDF</a>
@@ -45,7 +45,7 @@
 <section class="bg-light py-5">
     <div class="container">
         <h2 class="text-center">About File Conversion</h2>
-        <p class="lead text-center">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ac libero sed mi ultricies consectetur. Nulla facilisi. Suspendisse potenti.</p>
+        <p class="lead text-center">Di rancang oleh Muhammad Radya Wiguna - 2005548</p>
     </div>
 </section>
 
