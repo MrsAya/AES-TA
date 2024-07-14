@@ -44,7 +44,7 @@ if ($decryptedData === false) {
     $decryptedData = 'Decryption failed. Please check the key and encrypted data. Or the data may have been tampered with.';
 } else {
     // Debug: Print Decrypted Data
-    echo "<pre>Decrypted Data: $decryptedData</pre>";
+    // echo "<pre>Decrypted Data: $decryptedData</pre>";
     $_SESSION['decryptedData'] = $decryptedData;
 }
 
