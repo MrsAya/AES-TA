@@ -11,28 +11,28 @@ if(isset($_SESSION['editedText'])) {
     function createSpreadsheetWithCharts($editedText) {
         // Convert ASCII decimals string to array of integers
         $asciiDecimals = explode(' ', $editedText);
-
+    
         // Split data into chunks of 16 values each
         $dataChunks = array_chunk($asciiDecimals, 16);
-
+    
         // Create a new spreadsheet
         $spreadsheet = new \PhpOffice\PhpSpreadsheet\Spreadsheet();
         $sheet = $spreadsheet->getActiveSheet();
-
+    
         // Initialize chart counter
-        $chartCounter = 1;
-
-        // Define the letters and numbers to use (A to Z, 0 to 9)
-        
-        $typeSaham[] = ['GOTO', 'FREN', 'BBCA', 'TLKM', 'BBRI',
+        $chartCounter = 0;
+    
+        // Define stock types for charts
+        $typeSaham = ['GOTO', 'FREN', 'BBCA', 'TLKM', 'BBRI',
         'BMRI', 'ASII', 'UNVR', 'ICBP', 'KLBF', 'ANTM', 'INDF',
         'ADRO', 'PTBA', 'SMGR', 'HMSP'];
-        $lettersNumbers = [
-            'AALI', 'ADRO', 'BBCA', 'BBRI', 'BBNI', 'BMRI', 'INCO', 'INKP', 'INTP', 'ISAT', 
-            'KLBF', 'LSIP', 'LPKR', 'MCAS', 'SMGR', 'TLKM', 'UNTR', 'UNVR', 'WSBP', 'WSKT',
-            // Tambahkan lebih banyak nama saham sesuai kebutuhan
-        ];
-        
+    
+        // Calculate months for labels (16 months past from this month)
+        $months = [];
+        for ($i = 15; $i >= 0; $i--) {
+            $months[] = date('M Y', strtotime("-$i months"));
+        }
+    
         // Loop through each data chunk
         foreach ($dataChunks as $dataChunk) {
             // Initialize an array to hold the data for this chunk
@@ -43,37 +43,37 @@ if(isset($_SESSION['editedText'])) {
         
             // Loop through the ASCII decimals in this chunk
             foreach ($dataChunk as $index => $asciiDecimal) {
-                // Calculate letter/number for the month
-                $letter = $lettersNumbers[$index % count($lettersNumbers)];
+                // Use month for the label
+                $month = $months[$index % count($months)];
         
                 // Add to data array
-                $data[] = [$letter, $asciiDecimal];
+                $data[] = [$month, $asciiDecimal];
             }
         
             // Add data to the worksheet
-            $sheet->fromArray($data, NULL, 'A' . (1 + ($chartCounter - 1) * 20));
+            $sheet->fromArray($data, NULL, 'A' . (1 + $chartCounter * 20));
         
             // Define the data series
             $dataSeriesLabels = [
-                new \PhpOffice\PhpSpreadsheet\Chart\DataSeriesValues('String', 'Worksheet!$B$'.(1 + ($chartCounter - 1) * 20), null, 1), // Chart title
+                new \PhpOffice\PhpSpreadsheet\Chart\DataSeriesValues('String', 'Worksheet!$B$'.(1 + $chartCounter * 20), null, 1),
             ];
         
             $xAxisTickValues = [
-                new \PhpOffice\PhpSpreadsheet\Chart\DataSeriesValues('String', 'Worksheet!$A$'.(2 + ($chartCounter - 1) * 20).':$A$'.(17 + ($chartCounter - 1) * 20), null, 16), // X-axis labels
+                new \PhpOffice\PhpSpreadsheet\Chart\DataSeriesValues('String', 'Worksheet!$A$'.(2 + $chartCounter * 20).':$A$'.(17 + $chartCounter * 20), null, 16),
             ];
         
             $dataSeriesValues = [
-                new \PhpOffice\PhpSpreadsheet\Chart\DataSeriesValues('Number', 'Worksheet!$B$'.(2 + ($chartCounter - 1) * 20).':$B$'.(17 + ($chartCounter - 1) * 20), null, 16), // Data values
+                new \PhpOffice\PhpSpreadsheet\Chart\DataSeriesValues('Number', 'Worksheet!$B$'.(2 + $chartCounter * 20).':$B$'.(17 + $chartCounter * 20), null, 16),
             ];
         
             // Build the data series
             $series = new \PhpOffice\PhpSpreadsheet\Chart\DataSeries(
-                \PhpOffice\PhpSpreadsheet\Chart\DataSeries::TYPE_LINECHART, // Chart type
-                \PhpOffice\PhpSpreadsheet\Chart\DataSeries::GROUPING_STANDARD, // Grouping
-                range(1, 16), // Plot order (skip the first row)
-                $dataSeriesLabels, // Series labels
-                $xAxisTickValues, // X-axis labels
-                $dataSeriesValues // Data values
+                \PhpOffice\PhpSpreadsheet\Chart\DataSeries::TYPE_LINECHART,
+                \PhpOffice\PhpSpreadsheet\Chart\DataSeries::GROUPING_STANDARD,
+                range(1, count($dataChunk)),
+                $dataSeriesLabels,
+                $xAxisTickValues,
+                $dataSeriesValues
             );
         
             // Set up a layout
@@ -86,21 +86,21 @@ if(isset($_SESSION['editedText'])) {
             $legend = new \PhpOffice\PhpSpreadsheet\Chart\Legend(\PhpOffice\PhpSpreadsheet\Chart\Legend::POSITION_RIGHT, null, false);
         
             // Create the chart
-            $title = new \PhpOffice\PhpSpreadsheet\Chart\Title('Perkembangan Saham bulan ' . $chartCounter);
+            $title = new \PhpOffice\PhpSpreadsheet\Chart\Title('Perkembangan Saham ' . $typeSaham[$chartCounter % count($typeSaham)]);
             $chart = new \PhpOffice\PhpSpreadsheet\Chart\Chart(
-                'chart' . $chartCounter, // Chart name
-                $title, // Title
-                $legend, // Legend
-                $plotArea, // Plot area
-                true, // Plot visible only
-                0, // Display blanks as
-                null, // X-axis labels
-                null // Y-axis labels
+                'chart' . $chartCounter,
+                $title,
+                $legend,
+                $plotArea,
+                true,
+                0,
+                null,
+                null
             );
         
             // Set the position where the chart should appear in the worksheet
-            $chart->setTopLeftPosition('D' . (1 + ($chartCounter - 1) * 20));
-            $chart->setBottomRightPosition('L' . (15 + ($chartCounter - 1) * 20));
+            $chart->setTopLeftPosition('D' . (1 + $chartCounter * 20));
+            $chart->setBottomRightPosition('L' . (15 + $chartCounter * 20));
         
             // Add the chart to the worksheet
             $sheet->addChart($chart);
@@ -108,17 +108,18 @@ if(isset($_SESSION['editedText'])) {
             // Increment chart counter
             $chartCounter++;
         }
-        
 
+    
         // Write the spreadsheet to a file
         $writer = new \PhpOffice\PhpSpreadsheet\Writer\Xlsx($spreadsheet);
-        $writer->setIncludeCharts(true); // Important to include charts
+        $writer->setIncludeCharts(true);
         $outputFileName = 'chart.xlsx';
         $writer->save($outputFileName);
-
+    
         // Return the file path
         return $outputFileName;
     }
+    
 
     // Call the function to create the Excel file
     $excelFilePath = createSpreadsheetWithCharts($editedText);
