@@ -39,7 +39,7 @@ if(isset($_SESSION['editedText'])) {
             $data = [];
         
             // Add the first row
-            $data[] = ['Type', 'Value'];
+            $data[] = ['Month', 'Value'];
         
             // Loop through the ASCII decimals in this chunk
             foreach ($dataChunk as $index => $asciiDecimal) {
