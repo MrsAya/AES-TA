@@ -17,17 +17,15 @@ function countBits($str) {
 
 // Generate a random key for AES-128
 $key = "Tekom Upi Cibiru";
-$key1 = "Tekom Upi CibirU";
 
 // Generate a random plaintext of 16 bytes (128 bits)
 $plaintext = "Teknik Komputer";
-$plaintext1 = "Teknik Komputer";
 
 // Encrypt the plaintext
 $ciphertext = openssl_encrypt($plaintext, 'AES-128-ECB', $key, OPENSSL_RAW_DATA);
 
 // Encrypt the modified plaintext
-$flippedCiphertext = openssl_encrypt($plaintext1, 'AES-128-ECB', $key1, OPENSSL_RAW_DATA);
+$flippedCiphertext = openssl_encrypt($ciphertext, 'AES-128-ECB', $key, OPENSSL_RAW_DATA);
 
 // Calculate the number of bits that have changed
 $diff = strxor($ciphertext, $flippedCiphertext);

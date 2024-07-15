@@ -26,6 +26,56 @@ function encryptText($text)
     return $asciiDecimalsString;
 }
 
+
+function strxor($str1, $str2) {
+    $result = '';
+    for ($i = 0; $i < strlen($str1); $i++) {
+        $result .= $str1[$i] ^ $str2[$i];
+    }
+    return $result;
+}
+
+function countBits($str) {
+    $bits = 0;
+    for ($i = 0; $i < strlen($str); $i++) {
+        $bits += substr_count(decbin(ord($str[$i])), '1');
+    }
+    return $bits;
+}
+
+function flipBit($str, $pos) {
+    // Flip the first bit of the first character of the string for simplicity
+    $str[$pos] = $str[$pos] ^ chr(0x01);
+    return $str;
+}
+
+// Generate a random key for AES-128
+$key = $_SESSION['password'];
+
+// Generate a random plaintext of 16 bytes (128 bits)
+$plaintext = $_SESSION['extractedText'];
+
+// Encrypt the plaintext
+$ciphertext = openssl_encrypt($plaintext, 'AES-128-ECB', $key, OPENSSL_RAW_DATA);
+
+// Modify the plaintext by flipping a bit
+$modifiedPlaintext = flipBit($plaintext, 0); // Flip a bit in the first character
+
+// Encrypt the modified plaintext
+$flippedCiphertext = openssl_encrypt($modifiedPlaintext, 'AES-128-ECB', $key, OPENSSL_RAW_DATA);
+
+// Calculate the number of bits that have changed
+$diff = strxor($ciphertext, $flippedCiphertext);
+$bitChanges = countBits($diff);
+
+// Calculate the percentage of changed bits
+$percentageChange = ($bitChanges / (128)) * 100;
+
+echo "Original ciphertext: <br>" . bin2hex($ciphertext) . "<br>";
+echo "Modified ciphertext: <br>" . bin2hex($flippedCiphertext) . "<br>";
+echo "Number of bits changed: $bitChanges<br>";
+echo "Percentage of bits changed: $percentageChange%<br>";
+
 if (!isset($_SESSION['extractedText'])) {
     header('Location: index.php');
     exit;
