@@ -1,24 +1,20 @@
 <?php
-// Start the session
+// Start the session and clear existing data
 session_start();
-
-// Unset all session variables
 $_SESSION = [];
 
-// If it's desired to delete the session cookie
+// Check for session cookies and delete if present
 if (ini_get("session.use_cookies")) {
     $params = session_get_cookie_params();
-    setcookie(session_name(), '', time() - 42000,
+    setcookie(
+        session_name(), '', time() - 42000,
         $params["path"], $params["domain"],
         $params["secure"], $params["httponly"]
     );
 }
 
-// Destroy the session
+// Finally, destroy the session
 session_destroy();
-
-include 'navbar.php';
-
 ?>
 
 <!DOCTYPE html>
@@ -27,10 +23,11 @@ include 'navbar.php';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Upload DOCX/PDF</title>
-    <!-- Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
+
+<?php include 'navbar.php'; ?>
 
 <!-- Upload Section -->
 <section class="container mt-5">
@@ -42,7 +39,7 @@ include 'navbar.php';
                     <label for="file">Select File:</label>
                     <input type="file" class="form-control-file" id="file" name="file" accept=".docx,.pdf" required>
                     <label for="pass">Password</label>
-                    <input type="password" class="form-control" id="pass" name="password"  minlength="32" maxlength="32" required>
+                    <input type="password" class="form-control" id="pass" name="password" minlength="32" maxlength="32" required>
                 </div>
                 <button type="submit" class="btn btn-primary">Upload</button>
             </form>
@@ -50,7 +47,7 @@ include 'navbar.php';
     </div>
 </section>
 
-<!-- Bootstrap JS -->
+<!-- Bootstrap JS and dependencies -->
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
