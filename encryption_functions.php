@@ -3,8 +3,8 @@
 function encryptText($text)
 {
     $key = $_SESSION['password']; // Assume this is securely generated and stored
-    if (strlen($key) !== 32) {
-        die('Key must be 32 bytes long for AES-256 encryption.');
+    if (strlen($key) !== 16) {
+        die('Key must be 16 bytes long for AES-256 encryption.');
     }
     $method = 'aes-256-ecb';
     $encryptedData = openssl_encrypt($text, $method, $key, OPENSSL_RAW_DATA);
