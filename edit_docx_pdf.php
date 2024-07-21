@@ -23,7 +23,7 @@ $startTime = microtime(true); // Start timing before encryption
 
 // Encryption logic goes here
 $plaintext = $_SESSION['extractedText'] ?? 'Sample plaintext for demonstration.';
-$key = $_SESSION['password'] ?? 'your_32_byte_long_secure_key_here';
+$key = $_SESSION['password'] ?? 'your_16_byte_long_secure_key_here';
 
 $ciphertext = openssl_encrypt($plaintext, 'AES-128-ECB', $key, OPENSSL_RAW_DATA);
 $modifiedPlaintext = flipBit($plaintext, 0);
