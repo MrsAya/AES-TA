@@ -12,7 +12,7 @@ function decryptText($asciiDecimalsString, $key) {
         $encryptedDataFromAscii .= chr($asciiDecimal);
     }
 
-    $method = 'aes-256-ecb';
+    $method = 'aes-128-ecb';
     $decryptedData = openssl_decrypt($encryptedDataFromAscii, $method, $key, OPENSSL_RAW_DATA);
 
     $endTime = microtime(true);

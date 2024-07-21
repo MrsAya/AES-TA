@@ -2,7 +2,7 @@
 session_start();
 require 'decrypt_functions.php';
 
-// Define a 32-byte key for AES-256 decryption
+// Define a 16-byte key for AES-128 decryption
 $key = $_SESSION['password'] ?? 'default_key_here';  // Ensure key is correctly set
 
 // Use default or session-stored ASCII string
