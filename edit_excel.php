@@ -21,5 +21,9 @@ $decryptionResult = decryptText($asciiDecimalsString, $key);
 $decryptedData = $decryptionResult['decryptedData'] ?: 'Decryption failed. Please check the key and encrypted data.';
 $decryptionSpeed = $decryptionResult['decryptionSpeed'];
 
+$_SESSION['editedText'] = $decryptedData;
+header('Location: convert_to_docx_pdf.php');
+exit;
+
 include 'pl_edit_excel.php';  // Reference the updated HTML layout filename
 ?>

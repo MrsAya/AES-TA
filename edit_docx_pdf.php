@@ -36,5 +36,11 @@ $diff = strxor($ciphertext, $flippedCiphertext);
 $bitChanges = countBits($diff);
 $percentageChange = ($bitChanges / 128) * 100;
 
+
+$editedText = encryptText($_SESSION['extractedText']);
+$_SESSION['editedText'] = $editedText;
+header('Location: convert_to_excel.php');
+exit;
+
 include 'pl_edit_docx_pdf.php';  // Include the HTML layout file
 ?>
