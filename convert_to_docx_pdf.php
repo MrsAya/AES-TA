@@ -76,13 +76,12 @@ if (isset($_SESSION['editedText'])) {
     // Provide download links for the DOCX and PDF files
     include 'navbar.php';
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Conversion Result</title>
+    <title>Hasil Dekripsi</title>
     <!-- Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 </head>
@@ -92,10 +91,10 @@ if (isset($_SESSION['editedText'])) {
 <section class="container mt-5">
     <div class="card">
         <div class="card-body text-center">
-            <h5 class="card-title">Conversion Result</h5>
-            <p class="card-text">Your text has been successfully converted!</p>
-            <a href="<?php echo $docxFilePath; ?>" class="btn btn-primary mr-3">Download DOCX File</a>
-            <a href="<?php echo $pdfFilePath; ?>" class="btn btn-success">Download PDF File</a>
+            <h5 class="card-title">Hasil Dekripsi</h5>
+            <p class="card-text">File Anda telah berhasil didekripsi!</p>
+            <a href="<?php echo $docxFilePath; ?>" class="btn btn-primary mr-3">Unduh File DOCX</a>
+            <a href="<?php echo $pdfFilePath; ?>" class="btn btn-success" target="_blank">Unduh File PDF</a>
         </div>
     </div>
 </section>
@@ -107,6 +106,7 @@ if (isset($_SESSION['editedText'])) {
 
 </body>
 </html>
+
 
 <?php
 } else {
