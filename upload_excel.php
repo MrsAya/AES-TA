@@ -40,7 +40,7 @@ session_destroy();
                     <label for="file">Select File:</label>
                     <input type="file" class="form-control-file" id="file" name="file" accept=".xlsx" required>
                     <label for="pass">Password</label>
-                    <input type="password" class="form-control" id="pass" name="password" minlength="16" maxlength="16" required>
+                    <input type="password" class="form-control" id="pass" name="password" minlength="16" maxlength="16" required value="aaaaaaaaaaaaaaaa">
                 </div>
                 <button type="submit" class="btn btn-primary">Upload</button>
             </form>
