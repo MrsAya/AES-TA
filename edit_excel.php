@@ -19,7 +19,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 $decryptionResult = decryptText($asciiDecimalsString, $key);
 $decryptedData = $decryptionResult['decryptedData'] ?: 'Decryption failed. Please check the key and encrypted data.';
-$decryptionSpeed = $decryptionResult['decryptionSpeed'];
+$decryptionSpeed = str_replace('.', ',', $decryptionResult['decryptionSpeed']);
 
 include 'pl_edit_excel.php';  // Reference the updated HTML layout filename
 ?>
